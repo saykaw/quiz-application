@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const Timer = ({ onTimeUp }) => {
-  const [time, setTime] = useState(1800); // 30 mins in seconds
+  const [time, setTime] = useState(1800); 
 
   useEffect(() => {
     if (time === 0) {

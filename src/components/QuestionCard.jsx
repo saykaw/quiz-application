@@ -1,7 +1,6 @@
 import React from "react";
 
 const QuestionCard = ({ question, selectedAnswer, handleAnswer }) => {
-  // Safely check if options exist
   const options = question?.options || [];
 
   if (options.length === 0) {

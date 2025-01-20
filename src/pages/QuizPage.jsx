@@ -4,27 +4,44 @@ import QuestionCard from "../components/QuestionCard";
 import NavigationPanel from "../components/NavigationPanel";
 import { useNavigate } from "react-router-dom";
 
+/**
+This component renders the quiz interface, handling:
+- Fetching questions from an external API.
+- Navigating between questions.
+- Selecting answers and tracking the user's progress.
+- Managing a countdown timer.
+- Submitting the quiz and navigating to the result page.
+ */
+
 const QuizPage = () => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes
+  const [timeLeft, setTimeLeft] = useState(1800); 
   const navigate = useNavigate();
 
-  // Function to decode HTML entities
+
+  /*
+  Decodes HTML entities in a string to display formatted text.
+  Example: "&amp;" becomes "&".
+  */
+
   const decodeHTML = (html) => {
     const txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
   };
 
-  // Fetch questions from API
+  /*
+  Effect for fetching quiz questions from the Open Trivia Database API.
+  The questions are processed to include shuffled options and decoded text.
+  */
+
   useEffect(() => {
     axios.get("https://opentdb.com/api.php?amount=15")
       .then((res) => {
         const formattedQuestions = res.data.results.map((q) => {
           const options = [...q.incorrect_answers, q.correct_answer];
-          // Shuffle options
           for (let i = options.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [options[i], options[j]] = [options[j], options[i]];
@@ -40,7 +57,10 @@ const QuizPage = () => {
       .catch((err) => console.error("Error fetching questions:", err));
   }, []);
 
-  // Timer Logic
+  /*
+  Effect for managing the countdown timer.
+  Triggers quiz submission when the timer reaches zero.
+  */
   useEffect(() => {
     if (timeLeft === 0) {
       handleSubmit();
@@ -69,7 +89,7 @@ const QuizPage = () => {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
-      {/* Navigation Panel */}
+     
       <NavigationPanel
         questions={questions}
         currentQuestionIndex={currentQuestionIndex}
@@ -77,7 +97,7 @@ const QuizPage = () => {
         goToQuestion={goToQuestion}
       />
 
-      {/* Quiz Content */}
+     
       <div className="flex-1 p-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold">Question {currentQuestionIndex + 1}/15</h2>
