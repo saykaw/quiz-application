@@ -3,7 +3,7 @@ import React from "react";
 const NavigationPanel = ({ questions, currentQuestionIndex, answers, goToQuestion }) => {
   return (
     <div className="w-full lg:w-1/4 bg-gray-100 p-4 border-r border-gray-300">
-      <h2 className="text-xl font-semibold mb-4">Question Navigation</h2>
+      <h2 className="text-xl font-semibold mb-4">Navigation</h2>
       <div className="grid grid-cols-5 gap-2">
         {questions.map((_, index) => {
           // Determine button color based on visited/attempted status
